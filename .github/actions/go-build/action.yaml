@@ -83,7 +83,10 @@ runs:
         echo "Doing final steps..."
         echo "sha256:"
         shasum -a 256 "$ARCHIVE"
+        echo "archive=$ARCHIVE" >> $GITHUB_OUTPUT
 
-    - name: Upload Release if tag
+    - name: Make release
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
+      with:
+          files: ${{ steps.build.outputs.archive }}
