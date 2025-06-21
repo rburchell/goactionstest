@@ -95,8 +95,6 @@ runs:
         echo "Uploading file: ${{ steps.build.outputs.archive }}"
         ls -l "${{ steps.build.outputs.archive }}"
         echo "GITHUB_TOKEN present: ${GITHUB_TOKEN:+yes}"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Make release
       if: startsWith(github.ref, 'refs/tags/')
