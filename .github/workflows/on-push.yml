@@ -1,0 +1,30 @@
+name: "on: push"
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - path: cmd1
+            output-name: cmd1
+          - path: cmd2
+            output-name: cmd2
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build ${{ matrix.output-name }}
+        uses: ./.github/actions/go-build.yml
+        with:
+          go-version: "1.24.4"
+          os: darwin
+          arch: arm64
+          env: |
+            CGO_ENABLED=0
+          path: ${{ matrix.path }}
+          output-name: ${{ matrix.output-name }}
