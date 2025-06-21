@@ -83,3 +83,7 @@ runs:
         echo "Doing final steps..."
         echo "sha256:"
         shasum -a 256 "$ARCHIVE"
+
+      - name: Upload Release if tag
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
