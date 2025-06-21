@@ -61,16 +61,16 @@ runs:
           -ldflags="-s -w" \
           -trimpath \
           -o "$BIN_NAME$EXT" \
-          "${{ inputs.path }}"
+          "./${{ inputs.path }}"
 
         echo "Doing archive..."
         case "$GOOS" in
           windows | darwin)
             ARCHIVE="$BIN_NAME-${VERSION}-${GOOS}-${GOARCH}.zip"
-            zip -9q "$ARCHIVE" "$BIN_NAME$EXT" LICENSE
+            zip -9q "$ARCHIVE" "./${{ inputs.path }}/$BIN_NAME$EXT" LICENSE
             ;;
           linux)
-            tar -I 'gzip -9' -cf "$ARCHIVE" "$BIN_NAME$EXT" LICENSE
+            tar -I 'gzip -9' -cf "$ARCHIVE" "./${{ inputs.path }}/$BIN_NAME$EXT" LICENSE
             ;;
           *)
             echo "Unsupported OS: $GOOS"
@@ -78,7 +78,7 @@ runs:
             ;;
         esac
 
-        rm "$BIN_NAME$EXT"
+        rm "./${{ inputs.path }}/$BIN_NAME$EXT"
 
         echo "Doing final steps..."
         echo "sha256:"
