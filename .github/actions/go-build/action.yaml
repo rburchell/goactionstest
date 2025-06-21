@@ -83,6 +83,9 @@ runs:
         echo "Doing final steps..."
         echo "sha256:"
         shasum -a 256 "$ARCHIVE"
+
+        echo "Archive created:"
+        ls -l "$ARCHIVE"
         echo "archive=$ARCHIVE" >> $GITHUB_OUTPUT
 
     - name: Make release
