@@ -90,6 +90,7 @@ runs:
         echo "archive=$ARCHIVE" >> $GITHUB_OUTPUT
 
     - name: Debug before upload
+      shell: bash
       run: |
         echo "Uploading file: ${{ steps.build.outputs.archive }}"
         ls -l "${{ steps.build.outputs.archive }}"
