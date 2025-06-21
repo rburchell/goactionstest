@@ -58,7 +58,7 @@ runs:
 
         echo "Doing build..."
         go build \
-          -ldflags="-s -w \
+          -ldflags="-s -w" \
           -trimpath \
           -o "$BIN_NAME$EXT" \
           "${{ inputs.path }}"
