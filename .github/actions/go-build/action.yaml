@@ -36,6 +36,7 @@ runs:
       run: |
         set -euo pipefail
 
+        echo "Doing exports..."
         while IFS= read -r line; do
         if [[ -n "$line" ]]; then
             echo "Exporting: $line"
@@ -43,6 +44,7 @@ runs:
         fi
         done <<< "${{ inputs.env }}"
 
+        echo "Doing env setup..."
         export GOOS="${{ inputs.os }}"
         export GOARCH="${{ inputs.arch }}"
 
@@ -54,12 +56,14 @@ runs:
 
         VERSION="$(git describe --tags --always)"
 
+        echo "Doing build..."
         go build \
           -ldflags="-s -w \
           -trimpath \
           -o "$BIN_NAME$EXT" \
           "${{ inputs.path }}"
 
+        echo "Doing archive..."
         case "$GOOS" in
           windows | darwin)
             ARCHIVE="$BIN_NAME-${VERSION}-${GOOS}-${GOARCH}.zip"
@@ -76,5 +80,6 @@ runs:
 
         rm "$BIN_NAME$EXT"
 
+        echo "Doing final steps..."
         echo "sha256:"
         shasum -a 256 "$ARCHIVE"
